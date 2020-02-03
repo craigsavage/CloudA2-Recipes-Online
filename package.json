@@ -1,0 +1,21 @@
+{
+  "name": "clouda2-recipes-online",
+  "version": "1.0.0",
+  "description": "A website for finding and sharing Recipes online.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "recipes",
+    "recipe"
+  ],
+  "author": "Craig Savage",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.11"
+  }
+}
