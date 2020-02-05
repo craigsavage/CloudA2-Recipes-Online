@@ -1,23 +1,47 @@
 <%- include('partials/header') %>
 
 <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 style="font-size: 2rem; text-align: center;">Add A Recipe</h1>
+        </div>
 
-    <div class="formStyle">
-        <form action="/recipes" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text" name="recipe[title]" placeholder="Recipe Name" required>
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" name="recipe[description]" placeholder="Recipe description" cols="30" rows="10" required></textarea>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="recipe[image]" placeholder="Picture of recipe">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <div class="formStyle col-sm-12 col-md-8 col-lg-6" style="margin: 10px auto 25px auto;">
+            <form action="/recipes" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="recipe[title]" placeholder="Recipe Name" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name="recipe[description]" placeholder="Recipe description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="recipe[image]" placeholder="Paste image url">
+                </div>
+                <button type="submit" class="btn btn-block btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-    
 </div>
 
+<div class="container-fluid">
+    <div class="row" style="background-color: #F3F3F3; padding: 20px 30px;">
+        <% recipes.forEach((recipe) => { %>
+            <div class="col-lg-6" >
+                <div class="imageBox" style="float: left; margin-right: 15px;">
+                    <img src="<%= recipe.image %>" alt="Recipe image" style="width: 200px;">
+                </div>
+                
+                <div class="recipeDetails" style="float: left;">
+                    <h4><%= recipe.title %></h4>
+                    <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
+                    <p><%= recipe.description.substring(0, 100) %>...</p>
+                    <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div style="display: inline-block;"><%= recipe.like %></div></button>
+                    <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Save</button>
+                    <button class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
 
 <%- include('partials/footer') %>

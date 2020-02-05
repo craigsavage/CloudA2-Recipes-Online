@@ -23,11 +23,16 @@ app.get('/', (req, res) => {
     res.redirect('/recipes');
 });
 
+// INDEX - shows all recipes
 app.get('/recipes', (req, res) => {
-    Recipe.find({}, (err, found) => {
-        console.log( 'Recipes found:\n', found )
-    })
-    res.render('index');
+    // Finds all recipes in the database and renders the index page with them
+    Recipe.find({}, (err, recipes) => {
+        if(err) { console.log('Error finding recipes\n', err); }
+        else {
+            console.log( 'Recipes found:\n', recipes );
+            res.render('index', { recipes: recipes });
+        }
+    });
 });
 
 // Creates a new recipe in the database then redirects to /recipes get route
