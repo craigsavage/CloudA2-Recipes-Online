@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10 fill">
+            <img class="recipeImageDisplay" src="<%= recipe.image %>" alt="Recipe image">
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-10">
+            <div class="recipeDetails">
+                <h2 class="recipeTitles"><%= recipe.title %></h2>
+                <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
+                <p><%= recipe.description %></p>
+                
+                <!-- Increments the like count by 1 -->
+                <a href="/recipes/<%= recipe._id %>/like">
+                    <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
+                </a>
+                <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Save</button>
+
+                <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
+                    <button class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
+                </form>
+                
+                <a href="/recipes"><button class="btn btn-sm btn-danger"><i class="trash icon"></i>Go Back</button></a>
+            </div>
+        </div>       
+    </div>
+</div>
+
+<%- include('partials/footer') %>

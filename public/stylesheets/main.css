@@ -1,0 +1,30 @@
+a:hover {
+    text-decoration: none;
+}
+
+.recipeTitles {
+    margin: 0 0 2px 0;
+}
+
+.imageBox {
+    float: left;
+    height: 100%;
+    margin-right: 15px;
+}
+
+.fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 300px;
+}
+.fill img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+}
+
+.inlineBlock {
+    display: inline-block;
+}
