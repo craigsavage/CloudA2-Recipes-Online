@@ -6,19 +6,23 @@
             <h1 style="font-size: 2rem; text-align: center;">Add A Recipe</h1>
         </div>
 
-        <div class="formStyle col-sm-12 col-md-8 col-lg-6" style="margin: 10px auto 25px auto;">
+        <div class="formStyle col-sm-12 col-md-8 col-lg-6" style="margin: 10px auto 40px auto;">
             <form action="/recipes" method="post">
                 <div class="form-group">
                     <input class="form-control" type="text" name="recipe[title]" placeholder="Recipe Name" required>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name="recipe[description]" placeholder="Recipe description" rows="5" required></textarea>
+                    <textarea class="form-control form-control-sm" name="recipe[description]" placeholder="Recipe description" rows="5" required></textarea>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="recipe[image]" placeholder="Paste image url">
+                    <input class="form-control form-control-sm" type="text" name="recipe[image]" placeholder="Paste image url">
                 </div>
                 <button type="submit" class="btn btn-block btn-primary">Submit</button>
             </form>
+        </div>
+
+        <div class="col-12 text-center">
+            <h2>All Recipes</h2>
         </div>
     </div>
 </div>
@@ -26,7 +30,7 @@
 <div class="container-fluid">
     <div class="row" style="background-color: #F3F3F3; padding: 20px 30px;">
         <% recipes.forEach((recipe) => { %>
-            <div class="col-lg-6">
+            <div class="col-lg-6 recipeCards">
                 <div class="imageBox">
                     <img src="<%= recipe.image %>" alt="Recipe image" style="width: 200px;">
                 </div>
@@ -34,13 +38,15 @@
                 <div class="recipeDetails">
                     <a href="/recipes/<%= recipe._id %>"><h4 class="recipeTitles"><%= recipe.title %></h4></a>
                     <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
-                    <p style="width: fit-content;"><%= recipe.description.substring(0, 100) %>...</p style="width: fit-content;">
+                    <p><%= recipe.description.substring(0, 100) %>...</p>
                     
                     <!-- Increments the like count by 1 -->
                     <div class="recipeButtons">
-                        <a href="/recipes/<%= recipe._id %>/like">
+                        <!-- Increments the like count by 1 -->
+                        <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
                             <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
-                        </a>
+                        </form>
+                        
                         <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Save</button>
                         
                         <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">

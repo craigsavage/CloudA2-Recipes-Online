@@ -11,7 +11,8 @@ const Recipe = require('./models/recipe'),
 
 mongoose.connect('mongodb+srv://RecipeAdmin:RecipePassword@recipesonline-6rvfv.mongodb.net/recipes?retryWrites=true&w=majority', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 app.set('view engine', 'ejs');  // Tells express that we are going to be using ejs
@@ -32,7 +33,7 @@ app.get('/recipes', (req, res) => {
     Recipe.find({}, (err, recipes) => {
         if(err) { console.log('Error finding recipes\n', err); }
         else {
-            console.log( 'Recipes found:\n', recipes );
+            // console.log( 'Recipes found:\n', recipes );
             res.render('index', { recipes: recipes });
         }
     });
@@ -67,9 +68,23 @@ app.get('/recipes/:id', (req, res) => {
     });
 });
 
+// LIKE - Increments the likes of a recipe by 1
+app.put('/recipes/:id/like', (req, res) => {
+    Recipe.findById(req.params.id, (err, recipe) => {
+        if(err) { console.log('There was an error finding the recipe id\n', err); }
+        else {
+            let newLike = recipe.like + 1;
+            Recipe.findByIdAndUpdate(req.params.id, {$set: {like: newLike}},  (err, updatedRecipe) => {
+                if(err) { console.log('There was an error liking the recipe\n', err); }
+                else { res.redirect('/recipes'); }
+            });
+        }
+    });
+});
+
 // DELETE - deletes the selected recipe from database
 app.delete('/recipes/:id', (req, res) => {
-Recipe.findOneAndDelete(req.params.id, (err, deletedRecipe) => {
+    Recipe.findByIdAndDelete(req.params.id, (err, deletedRecipe) => {
         if(err) { console.log('There was an error deleting the recipe\n', err); }
         else {
             console.log(deletedRecipe.title + ' was deleted from database.');

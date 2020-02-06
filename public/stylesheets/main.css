@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers&display=swap');
+
 a:hover {
     text-decoration: none;
+}
+
+.recipeCards{
+    margin: 15px 0;
+    padding: 10px;
 }
 
 .recipeTitles {
