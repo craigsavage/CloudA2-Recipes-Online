@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-10 fill">
+        <div class="col-10 showImageContainer fill">
             <img class="recipeImageDisplay" src="<%= recipe.image %>" alt="Recipe image">
         </div>
     </div>
@@ -18,8 +18,8 @@
                 <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
                     <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
                 </form>
-                
-                <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Save</button>
+
+                <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Share</button>
 
                 <a href="/recipes"><button class="btn btn-sm btn-warning"><i class="reply all icon"></i>Go Back</button></a>
 

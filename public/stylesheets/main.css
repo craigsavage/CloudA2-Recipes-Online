@@ -4,9 +4,34 @@ a:hover {
     text-decoration: none;
 }
 
+.navbar {
+    margin-bottom: 30px;
+}
+
+#submitRecipe {
+    background-color: #16CCCF;
+}
+
+#addRecipeHeader {
+    color: tomato;
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    text-align: center;
+}
+
+#allRecipesHeader {
+    color: #98B735;
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    text-align: center;
+}
+
 .recipeCards{
-    margin: 15px 0;
-    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    min-height: 180px;
+    margin: 15px 10px;
+    padding: 20px;
 }
 
 .recipeTitles {
@@ -14,9 +39,21 @@ a:hover {
 }
 
 .imageBox {
+    border-radius: 5px;
     float: left;
-    height: 100%;
+    height: 140px;
     margin-right: 15px;
+}
+
+.imageBox img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: 200px;
+}
+
+.showImageContainer {
+    height: 300px;
 }
 
 .fill {
@@ -24,14 +61,33 @@ a:hover {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    height: 300px;
+    
 }
+
 .fill img {
     flex-shrink: 0;
     min-width: 100%;
-    min-height: 100%
+    min-height: 100%;
 }
 
 .inlineBlock {
     display: inline-block;
+}
+
+.clearDefaults {
+    margin: 0;
+    padding: 0;
+}
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(30, 30, 30, 0.5), rgba(0, 0, 0, 0));
+}
+
+#nav {
+    color: tomato;
+    font-family: 'Bangers', cursive;
+    font-size: 30px;
+    padding: 2px 0;
 }

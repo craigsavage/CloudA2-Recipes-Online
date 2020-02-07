@@ -1,12 +1,14 @@
 <%- include('partials/header') %>
 
 <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-12">
-            <h1 style="font-size: 2rem; text-align: center;">Add A Recipe</h1>
+            <h1 id="addRecipeHeader">Add A Recipe</h1>
         </div>
+    </div>
 
-        <div class="formStyle col-sm-12 col-md-8 col-lg-6" style="margin: 10px auto 40px auto;">
+    <div class="row justify-content-center mb-5">
+        <div class="formStyle col-sm-12 col-md-8 col-lg-6">
             <form action="/recipes" method="post">
                 <div class="form-group">
                     <input class="form-control" type="text" name="recipe[title]" placeholder="Recipe Name" required>
@@ -17,12 +19,21 @@
                 <div class="form-group">
                     <input class="form-control form-control-sm" type="text" name="recipe[image]" placeholder="Paste image url">
                 </div>
-                <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                <button id="submitRecipe" type="submit" class="btn btn-block">Submit</button>
             </form>
-        </div>
+        </div>   
+    </div>
 
-        <div class="col-12 text-center">
-            <h2>All Recipes</h2>
+    <hr class="style-two">
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-sm-12 col-md-8 col-lg-6 text-center mb-3">
+            <div class="searchBar">
+                <h2 id="allRecipesHeader">All Recipes</h2>
+                <form class="form-group" action="/recipes/search" method="post">
+                    <input id="search" class="form-control" type="search" name="search" placeholder="Search For A Recipe...">
+                </form>  
+            </div>      
         </div>
     </div>
 </div>
@@ -30,28 +41,30 @@
 <div class="container-fluid">
     <div class="row" style="background-color: #F3F3F3; padding: 20px 30px;">
         <% recipes.forEach((recipe) => { %>
-            <div class="col-lg-6 recipeCards">
-                <div class="imageBox">
-                    <img src="<%= recipe.image %>" alt="Recipe image" style="width: 200px;">
-                </div>
-                
-                <div class="recipeDetails">
-                    <a href="/recipes/<%= recipe._id %>"><h4 class="recipeTitles"><%= recipe.title %></h4></a>
-                    <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
-                    <p><%= recipe.description.substring(0, 100) %>...</p>
+            <div class="col-lg-6 clearDefaults">
+                <div class="recipeCards">
+                    <div class="imageBox fill">
+                        <img src="<%= recipe.image %>" alt="Recipe image" style="">
+                    </div>
                     
-                    <!-- Increments the like count by 1 -->
-                    <div class="recipeButtons">
+                    <div class="recipeDetails">
+                        <a href="/recipes/<%= recipe._id %>"><h4 class="recipeTitles"><%= recipe.title %></h4></a>
+                        <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
+                        <p><%= recipe.description.substring(0, 100) %>...</p>
+                        
                         <!-- Increments the like count by 1 -->
-                        <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
-                            <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
-                        </form>
-                        
-                        <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Save</button>
-                        
-                        <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
-                            <button class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
-                        </form>
+                        <div class="recipeButtons">
+                            <!-- Increments the like count by 1 -->
+                            <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
+                                <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
+                            </form>
+
+                            <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Share</button>
+                            
+                            <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
+                                <button class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,4 +72,7 @@
     </div>
 </div>
 
+<!-- <script>
+    document.getElementById('search').value
+</script> -->
 <%- include('partials/footer') %>

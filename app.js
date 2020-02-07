@@ -59,6 +59,18 @@ app.post('/recipes', (req, res) => {
     });
 });
 
+// SEARCH - searches and displays recipes matching searched word/phrase
+app.post('/recipes/search', (req, res) => {
+    let searchPhrase = req.body.search;
+    Recipe.find({ 'title': { "$regex": searchPhrase, "$options": "i" } }, (err, recipes) => {
+    if(err) { console.log('There was an error searching for the recipe\n', err); }
+        else {
+            console.log(recipes)
+            res.render('index', { recipes: recipes });
+        }
+    })
+});
+
 // SHOW - shows more information about a single recipe
 app.get('/recipes/:id', (req, res) => {
     // Searches the database for a recipe matching that id then renders a page with that recipe details
