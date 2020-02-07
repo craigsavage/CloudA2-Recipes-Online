@@ -91,3 +91,14 @@ hr.style-two {
     font-size: 30px;
     padding: 2px 0;
 }
+
+#addRecipeHeader {
+    cursor: pointer;
+    display: table;
+    margin: 0 auto 15px auto;
+}
+
+#addNewRecipeContainer {
+    justify-content: center;
+    margin-bottom: 60px;
+}
