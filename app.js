@@ -22,7 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));  // override with POST having ex: "?_method=DELETE" in url
 
-// ROUTES
+// ROUTES -> RECIPES
+// ====================
+
 app.get('/', (req, res) => {
     res.redirect('/recipes');
 });
@@ -74,9 +76,9 @@ app.post('/recipes/search', (req, res) => {
 // SHOW - shows more information about a single recipe
 app.get('/recipes/:id', (req, res) => {
     // Searches the database for a recipe matching that id then renders a page with that recipe details
-    Recipe.findById(req.params.id, (err, recipe) => {
+    Recipe.findById(req.params.id).populate('comments').exec((err, recipe) => {
         if(err) { console.log('There was an error with finding the recipe\n', err); }
-        else { res.render('showRecipe', { recipe: recipe}); }
+        else { res.render('showRecipe', { recipe: recipe}); console.log(recipe) }
     });
 });
 
@@ -87,8 +89,11 @@ app.put('/recipes/:id/like', (req, res) => {
         else {
             let newLike = recipe.like + 1;
             Recipe.findByIdAndUpdate(req.params.id, {$set: {like: newLike}},  (err, updatedRecipe) => {
-                if(err) { console.log('There was an error liking the recipe\n', err); }
-                else { res.redirect('/recipes'); }
+                if(err) {
+                    console.log('There was an error liking the recipe\n', err);
+                    res.json( { updated: false });
+                }
+                else { res.json(  { updated: true }); }
             });
         }
     });
@@ -101,6 +106,31 @@ app.delete('/recipes/:id', (req, res) => {
         else {
             console.log(deletedRecipe.title + ' was deleted from database.');
             res.redirect('/recipes');
+        }
+    });
+});
+
+// ROUTES -> COMMENTS
+// ====================
+
+// CREATE - adds new comment to recipe 
+app.post('/recipes/:id/comments', (req, res) => {
+    // Finds the recipe to be commented on
+    Recipe.findById(req.params.id, (err, recipe) => {
+        if(err) { console.log('Error finding recipes\n', err); }
+        else {
+            // Create a new comment
+            Comment.create(req.body.comment, (err, comment) => {
+                if(err) { console.log('Error creating new comment\n', err); }
+                else {
+                    // Link comment to specified recipe
+                    recipe.comments.push(comment);
+                    recipe.save();
+
+                    // Refresh page to display new comment
+                    res.redirect('/recipes/' + recipe._id);
+                }
+            });
         }
     });
 });

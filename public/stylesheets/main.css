@@ -1,42 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Bangers&display=swap');
 
-a:hover {
-    text-decoration: none;
-}
+h6 { margin: 0; }
 
-.navbar {
-    margin-bottom: 30px;
-}
+a:hover { text-decoration: none; }
 
-#submitRecipe {
-    background-color: #16CCCF;
-}
-
-#addRecipeHeader {
-    color: tomato;
-    font-family: 'Bangers', cursive;
-    font-size: 2rem;
-    text-align: center;
-}
-
-#allRecipesHeader {
-    color: #98B735;
-    font-family: 'Bangers', cursive;
-    font-size: 2rem;
-    text-align: center;
-}
+.navbar { margin-bottom: 30px; }
 
 .recipeCards{
     background-color: white;
     border-radius: 5px;
+    box-shadow: 10px 10px 10px #bbbbbbbb;
     min-height: 180px;
     margin: 15px 10px;
     padding: 20px;
 }
 
-.recipeTitles {
-    margin: 0 0 2px 0;
-}
+.recipeTitles { margin: 0 0 2px 0; }
 
 .imageBox {
     border-radius: 5px;
@@ -52,9 +31,7 @@ a:hover {
     width: 200px;
 }
 
-.showImageContainer {
-    height: 300px;
-}
+.showImageContainer { height: 300px; }
 
 .fill {
     display: flex;
@@ -70,14 +47,14 @@ a:hover {
     min-height: 100%;
 }
 
-.inlineBlock {
-    display: inline-block;
-}
+.inlineBlock { display: inline-block; }
 
 .clearDefaults {
     margin: 0;
     padding: 0;
 }
+
+.card-header h5 { margin: 0; }
 
 hr.style-two {
     border: 0;
@@ -90,15 +67,41 @@ hr.style-two {
     font-family: 'Bangers', cursive;
     font-size: 30px;
     padding: 2px 0;
+    transition: all 0.5s ease-in-out;
+}
+
+#nav:hover {
+    text-shadow: 1px 1px 2px black, 0 0 20px #47E3FF, 0 0 5px rgb(28, 94, 95);
 }
 
 #addRecipeHeader {
+    color: tomato;
     cursor: pointer;
     display: table;
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
     margin: 0 auto 15px auto;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+
+#allRecipesHeader {
+    color: #98B735;
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    margin-top: 10px;
+    text-align: center;
 }
 
 #addNewRecipeContainer {
     justify-content: center;
     margin-bottom: 60px;
+}
+
+#submitRecipe {
+    background-color: #16CCCF;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 100%;
 }

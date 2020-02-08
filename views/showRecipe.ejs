@@ -8,16 +8,19 @@
     </div>
 
     <div class="row justify-content-center mt-4">
-        <div class="col-10">
+        <div class="col col-md-10">
             <div class="recipeDetails">
                 <h2 class="recipeTitles"><%= recipe.title %></h2>
                 <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>             
                 <p id="descript"><%= recipe.description %></p>
                 
                 <!-- Increments the like count by 1 -->
-                <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
+                <!-- <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
                     <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
-                </form>
+                </form> -->
+                <button class="btn btn-sm btn-info" onclick="likedPost('<%= recipe._id %>')">
+                    <i class="heart icon"></i>Like <div id="likedNumber<%= recipe._id %>" class="inlineBlock"><%= recipe.like %></div>
+                </button>
 
                 <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Share</button>
 
@@ -29,12 +32,62 @@
             </div>
         </div>       
     </div>
+
+    <!-- Comments Section -->
+    <div class="row justify-content-center mt-5">
+        <div class="col col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Comments</h5>
+                </div>
+                <div class="card-body addCommentSection">
+                    <form action="/recipes/<%= recipe._id %>/comments" method="post">
+                        <div class="row">
+                            <div class="col-12 col-md-6 form-group">
+                                <input class="form-control form-control-sm" name="comment[author]" type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <input class="form-control form-control-sm" name="comment[text]" type="text" placeholder="Comment..." required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <button id="addComentBtn" type="submit" class="btn btn-sm btn-block btn-info">Submit</button>
+                            </div>
+                        </div>        
+                    </form>
+                </div>
+                <div class="card-body">
+                    <% recipe.comments.forEach((comment) => { %>
+                        <div class="comments">
+                            <h5><%= comment.author %></h5>
+                            <small><%= comment.dateCreated.toDateString() %></small>
+                            <p><%= comment.text %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+                    
+        </div>
+    </div>
 </div>
 
-<!-- <script>
+<script>
     str = document.getElementById("descript").innerHTML;
     str = str.split("\n").join("<br>");
     document.getElementById("descript").innerHTML = str;
-</script> -->
+
+    function likedPost(id) {
+        fetch(`http://localhost:3000/recipes/${id}/like`, {
+            method: 'PUT'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Data:', data);
+            if(data.updated) {
+                let numLikes = document.getElementById(`likedNumber${id}`);
+                numLikes.innerHTML = parseInt(numLikes.innerHTML) + 1;
+            }
+        })
+    }
+</script>
 
 <%- include('partials/footer') %>

@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <input class="form-control form-control-sm" type="text" name="recipe[image]" placeholder="Paste image url">
                 </div>
-                <button id="submitRecipe" type="submit" class="btn btn-block">Submit</button>
+                <button id="submitRecipe" type="submit" class="btn">Submit</button>
             </form>
         </div>   
     </div>
@@ -44,7 +44,7 @@
             <div class="col-lg-6 clearDefaults">
                 <div class="recipeCards">
                     <div class="imageBox fill">
-                        <img src="<%= recipe.image %>" alt="Recipe image" style="">
+                        <img src="<%= recipe.image %>" alt="Recipe image">
                     </div>
                     
                     <div class="recipeDetails">
@@ -55,14 +55,14 @@
                         <!-- Increments the like count by 1 -->
                         <div class="recipeButtons">
                             <!-- Increments the like count by 1 -->
-                            <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
-                                <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
-                            </form>
+                            <button class="btn btn-sm btn-info" onclick="likedPost('<%= recipe._id %>')">
+                                <i class="heart icon"></i>Like <div id="likedNumber<%= recipe._id %>" class="inlineBlock"><%= recipe.like %></div>
+                            </button>
 
                             <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Share</button>
                             
                             <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
-                                <button class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
+                                <button id="likeButton" class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
                             </form>
                         </div>
                     </div>
@@ -78,5 +78,19 @@
     addRecipeHeader.addEventListener('click', () => {
         (newRecipe.style.display === 'none') ? newRecipe.style.display = 'block' : newRecipe.style.display = 'none';
     });
+
+    function likedPost(id) {
+        fetch(`http://localhost:3000/recipes/${id}/like`, {
+            method: 'PUT'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Data:', data);
+            if(data.updated) {
+                let numLikes = document.getElementById(`likedNumber${id}`);
+                numLikes.innerHTML = parseInt(numLikes.innerHTML) + 1;
+            }
+        })
+    }
 </script>
 <%- include('partials/footer') %>
