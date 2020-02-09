@@ -2,6 +2,7 @@
 const express        = require('express'),
       app            = express(),
       mongoose       = require('mongoose'),
+      nodemailer     = require("nodemailer"),
       bodyParser     = require('body-parser'),
       methodOverride = require('method-override');
 
@@ -21,6 +22,16 @@ app.use(express.static(__dirname + '/public')); // link to the stylesheets
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));  // override with POST having ex: "?_method=DELETE" in url
+
+// EMAIL -> RECIPES
+// ====================
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'recipes.online.automgmt@gmail.com',
+      pass: 'recipes.password'
+    }
+});
 
 // ROUTES -> RECIPES
 // ====================
@@ -135,7 +146,34 @@ app.post('/recipes/:id/comments', (req, res) => {
     });
 });
 
+// ROUTES -> API / NOTIFICATION SERVICE
+// ====================
+
+// CREATE - Composes and sends an email of the recipe to users email
+app.post('/recipes/:id/email', (req, res) => {
+    // Finds the recipe to be emailed
+    Recipe.findById(req.params.id, (err, recipe) => {
+
+        // Composes the message details to be sent
+        let mailOptions = {
+            from: 'recipes.online.automgmt@gmail.com',
+            to: 'recipes.online.automgmt@gmail.com',
+            subject: recipe.title,
+            text: recipe.description
+        };
+
+        // Sends message 
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) { console.log('An error occured while attempting to send: ' + err); }
+            else { console.log(`Email sent to ${req.body.email}: ${info.response}`); }
+        });
+
+        // Refresh page to display new comment
+        res.redirect('/recipes/' + recipe._id);
+    });
+});
+
 // SERVER
 app.listen(process.env.PORT | 3000, () => {
     console.log('The Server has started!');
-})
+});

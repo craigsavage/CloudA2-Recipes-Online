@@ -52,14 +52,23 @@
                         <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>
                         <p><%= recipe.description.substring(0, 100) %>...</p>
                         
-                        <!-- Increments the like count by 1 -->
+                        <!-- Hidden email input field -->
+                        <div class="hideBox" id="showEmailInputCards">
+                            <form id="sendPostCards" action="/recipes/<%= recipe._id %>/email" method="post">
+                                <input class="form-control form-control-sm" name="email" type="email" placeholder="Email address" required>
+                                <button class="btn btn-sm btn-success"><i class="paper plane icon"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- Clickable buttons on each card -->
                         <div class="recipeButtons">
                             <!-- Increments the like count by 1 -->
                             <button class="btn btn-sm btn-info" onclick="likedPost('<%= recipe._id %>')">
                                 <i class="heart icon"></i>Like <div id="likedNumber<%= recipe._id %>" class="inlineBlock"><%= recipe.like %></div>
                             </button>
 
-                            <button class="btn btn-sm btn-success"><i class="paper plane icon"></i>Share</button>
+                            <button class="btn btn-sm btn-success" onclick="hide()">
+                                <i class="paper plane icon"></i>Share</button>
                             
                             <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
                                 <button id="likeButton" class="btn btn-sm btn-danger"><i class="trash icon"></i>Delete</button>
@@ -91,6 +100,12 @@
                 numLikes.innerHTML = parseInt(numLikes.innerHTML) + 1;
             }
         })
+    }
+
+    // Shows/Hides the email input feild
+    function hide() {
+        let emailBox = document.getElementById('showEmailInputCards');
+        emailBox.classList.toggle('hideBox');
     }
 </script>
 <%- include('partials/footer') %>
