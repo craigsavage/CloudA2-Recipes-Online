@@ -1,8 +1,9 @@
-// SETUP =====
+// SETUP -> Required packages
 const express        = require('express'),
       app            = express(),
+      request        = require('request'),
       mongoose       = require('mongoose'),
-      nodemailer     = require("nodemailer"),
+      nodemailer     = require('nodemailer'),
       bodyParser     = require('body-parser'),
       methodOverride = require('method-override');
 
@@ -16,6 +17,7 @@ mongoose.connect('mongodb+srv://RecipeAdmin:RecipePassword@recipesonline-6rvfv.m
     useFindAndModify: false
 });
 
+// SETUP - express
 app.set('view engine', 'ejs');  // Tells express that we are going to be using ejs
 app.use(express.static(__dirname + '/public')); // link to the stylesheets
 
@@ -76,7 +78,7 @@ app.post('/recipes', (req, res) => {
 app.post('/recipes/search', (req, res) => {
     let searchPhrase = req.body.search;
     Recipe.find({ 'title': { "$regex": searchPhrase, "$options": "i" } }, (err, recipes) => {
-    if(err) { console.log('There was an error searching for the recipe\n', err); }
+        if(err) { console.log('There was an error searching for the recipe\n', err); }
         else {
             console.log(recipes)
             res.render('index', { recipes: recipes });
@@ -89,7 +91,30 @@ app.get('/recipes/:id', (req, res) => {
     // Searches the database for a recipe matching that id then renders a page with that recipe details
     Recipe.findById(req.params.id).populate('comments').exec((err, recipe) => {
         if(err) { console.log('There was an error with finding the recipe\n', err); }
-        else { res.render('showRecipe', { recipe: recipe}); console.log(recipe) }
+        else {
+            let options = {
+                method: 'GET',
+                url: 'https://edamam-food-and-grocery-database.p.rapidapi.com/parser',
+                qs: {ingr: recipe.title },
+                headers: {
+                  'x-rapidapi-host': 'edamam-food-and-grocery-database.p.rapidapi.com',
+                  'x-rapidapi-key': '139da11e86msh4c54e7c3f5d8772p16b9f4jsna6596063e81b'
+                }
+            };
+
+            // Make a api search with the above options 
+            request(options, (error, response, body) => {
+                console.log('error:', error); // Print the error if one occurred
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+
+                let food = JSON.parse(body);
+                // console.log('body:', body); // Print the HTML for the Google homepage.
+                console.log(food.hints[0].food);
+            });
+
+            // console.log(recipe);
+            res.render('showRecipe', { recipe: recipe});            
+        }
     });
 });
 
@@ -146,7 +171,7 @@ app.post('/recipes/:id/comments', (req, res) => {
     });
 });
 
-// ROUTES -> API / NOTIFICATION SERVICE
+// ROUTES -> NOTIFICATION SERVICE
 // ====================
 
 // CREATE - Composes and sends an email of the recipe to users email

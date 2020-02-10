@@ -89,7 +89,7 @@
     });
 
     function likedPost(id) {
-        fetch(`http://localhost:3000/recipes/${id}/like`, {
+        fetch(`/recipes/${id}/like`, {
             method: 'PUT'
         })
         .then(res => res.json())
