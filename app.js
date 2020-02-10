@@ -200,6 +200,6 @@ app.post('/recipes/:id/email', (req, res) => {
 });
 
 // SERVER
-app.listen(process.env.PORT | 3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('The Server has started!');
 });
