@@ -14,6 +14,34 @@
                 <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>             
                 <p id="descript"><%= recipe.description %></p>
 
+                <div class="mt-5 mb-5">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th colspan="2">Nutrition Facts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Energy</td>
+                                <td><%= Number(nutrients.ENERC_KCAL).toFixed(2) %> kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Protein</td>
+                                <td><%= Number(nutrients.PROCNT).toFixed(2) %> g</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td><%= Number(nutrients.FAT).toFixed(2) %> g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbs</td>
+                                <td><%= Number(nutrients.CHOCDF).toFixed(2) %> g</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <!-- Hidden email input field -->
                 <div class="hideBox" id="showEmailInput">
                     <form id="sendPost" action="/recipes/<%= recipe._id %>/email" method="post">

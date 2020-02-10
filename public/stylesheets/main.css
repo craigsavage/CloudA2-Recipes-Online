@@ -4,6 +4,10 @@
 
 h6 { margin: 0; }
 
+tr { padding: 10px 5px; }
+
+td { margin: 0 5px; }
+
 a:hover { text-decoration: none; }
 
 .navbar { margin-bottom: 30px; }

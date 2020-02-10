@@ -108,12 +108,13 @@ app.get('/recipes/:id', (req, res) => {
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 
                 let food = JSON.parse(body);
-                // console.log('body:', body); // Print the HTML for the Google homepage.
-                console.log(food.hints[0].food);
-            });
+                let nutrients = food.hints[0].food.nutrients;
 
-            // console.log(recipe);
-            res.render('showRecipe', { recipe: recipe});            
+                // console.log('body:', body); // Print the HTML for the Google homepage.
+                console.log(food.hints[0].food.nutrients);
+
+                res.render('showRecipe', { recipe: recipe, nutrients: nutrients });     
+            });     
         }
     });
 });
