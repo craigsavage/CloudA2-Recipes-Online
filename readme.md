@@ -1,4 +1,5 @@
 # Recipes Online
+ Recipes Online is a website that allows anyone to easliy upload recipes to be seen by anyone.
 
 #### 4 Main Features
 

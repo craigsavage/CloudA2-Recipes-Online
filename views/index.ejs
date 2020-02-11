@@ -53,7 +53,7 @@
                         <p><%= recipe.description.substring(0, 100) %>...</p>
                         
                         <!-- Hidden email input field -->
-                        <div class="hideBox" id="showEmailInputCards">
+                        <div class="hideBox" id="showEmailInputCards<%= recipe._id %>">
                             <form id="sendPostCards" action="/recipes/<%= recipe._id %>/email" method="post">
                                 <input class="form-control form-control-sm" name="email" type="email" placeholder="Email address" required>
                                 <button class="btn btn-sm btn-success"><i class="paper plane icon"></i></button>
@@ -67,7 +67,7 @@
                                 <i class="heart icon"></i>Like <div id="likedNumber<%= recipe._id %>" class="inlineBlock"><%= recipe.like %></div>
                             </button>
 
-                            <button class="btn btn-sm btn-success" onclick="hide()">
+                            <button class="btn btn-sm btn-success" onclick="hide('<%= recipe._id %>')">
                                 <i class="paper plane icon"></i>Share</button>
                             
                             <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
@@ -84,6 +84,7 @@
 <script>
     let newRecipe = document.getElementById('addNewRecipe');
 
+    // Shows/Hides the add recipe form
     addRecipeHeader.addEventListener('click', () => {
         (newRecipe.style.display === 'none') ? newRecipe.style.display = 'block' : newRecipe.style.display = 'none';
     });
@@ -103,8 +104,8 @@
     }
 
     // Shows/Hides the email input feild
-    function hide() {
-        let emailBox = document.getElementById('showEmailInputCards');
+    function hide(id) {
+        let emailBox = document.getElementById(`showEmailInputCards${id}`);
         emailBox.classList.toggle('hideBox');
     }
 </script>

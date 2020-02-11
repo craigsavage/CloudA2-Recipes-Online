@@ -7,6 +7,7 @@
         </div>
     </div>
 
+    <!-- Displays detailed information about the selected recipe -->
     <div class="row justify-content-center mt-4">
         <div class="col col-md-10">
             <div class="recipeDetails">
@@ -14,7 +15,7 @@
                 <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>             
                 <p id="descript"><%= recipe.description %></p>
 
-                <!-- Gets nutrition facts from external API -->
+                <!-- Gets nutrition facts from external API and creates a table if it exists -->
                 <% if (Object.keys(nutrients).length > 0) { %>
                 <div class="mt-5 mb-5">                    
                     <table class="table">
@@ -53,17 +54,17 @@
                     </form>
                 </div>
 
-                <!-- Increments the like count by 1 -->
-                <!-- <form class="inlineBlock" action="/recipes/<%= recipe._id %>/like?_method=PUT" method="post">
-                    <button class="btn btn-sm btn-info"><i class="heart icon"></i>Like <div class="inlineBlock"><%= recipe.like %></div></button>
-                </form> -->
+                <!-- Like - Increments the like count by 1 -->
                 <button class="btn btn-sm btn-info" onclick="likedPost('<%= recipe._id %>')">
                     <i class="heart icon"></i>Like <div id="likedNumber<%= recipe._id %>" class="inlineBlock"><%= recipe.like %></div>
                 </button>
 
+                <!-- Share - Displays email input field when clicked -->
                 <button id="toggleShareBox" class="btn btn-sm btn-success" onclick="hide()">
-                    <i class="paper plane icon"></i>Share</button>
+                    <i class="paper plane icon"></i>Share
+                </button>
 
+                <!--  -->
                 <a href="/recipes"><button class="btn btn-sm btn-warning"><i class="reply all icon"></i>Go Back</button></a>
 
                 <form class="inlineBlock" action="/recipes/<%= recipe._id %>?_method=DELETE" method="post">
@@ -113,16 +114,19 @@
 <script>
     let showEmail = document.getElementById('toggleShareBox');
 
+    // Replaces newline characters with a br tag so that it will be properly formatted in html
     str = document.getElementById("descript").innerHTML;
     str = str.split("\n").join("<br>");
     document.getElementById("descript").innerHTML = str;
 
+    // increments the number of like in the database as well as here on frontend to avoid page redirecting to update
     function likedPost(id) {
         fetch(`http://localhost:3000/recipes/${id}/like`, {
             method: 'PUT'
         })
         .then(res => res.json())
         .then(data => {
+            // updates like number only if it has been updated in the database
             console.log('Data:', data);
             if(data.updated) {
                 let numLikes = document.getElementById(`likedNumber${id}`);

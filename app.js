@@ -47,18 +47,12 @@ app.get('/recipes', (req, res) => {
     // Finds all recipes in the database and renders the index page with them
     Recipe.find({}, (err, recipes) => {
         if(err) { console.log('Error finding recipes\n', err); }
-        else {
-            // console.log( 'Recipes found:\n', recipes );
-            res.render('index', { recipes: recipes });
-        }
+        else { res.render('index', { recipes: recipes }); }
     });
 });
 
 // CREATE - add new recipes
 app.post('/recipes', (req, res) => {
-    // Clears database (for testing purposes)
-    // Recipe.deleteMany({}, (err) => { console.log('DB cleared'); });
-
     // if user did not provide an image url, then 'No Image Avaiable' image will be set
     if(req.body.recipe.image === "") {
         req.body.recipe.image = 'https://www.eberhard.com/sites/default/files/default_images/NoImage_0_0.jpg';
@@ -67,23 +61,22 @@ app.post('/recipes', (req, res) => {
     // Creates a new recipe in the database then redirects to /recipes get route
     Recipe.create(req.body.recipe, (err, recipe) => {
         if(err) { console.log('There was an error adding to database\n', err); }
-        else { 
-            console.log('New Recipe:', recipe);
-            res.redirect('/recipes');
-        }
+        else { res.redirect('/recipes'); }
     });
 });
 
 // SEARCH - searches and displays recipes matching searched word/phrase
 app.post('/recipes/search', (req, res) => {
     let searchPhrase = req.body.search;
-    Recipe.find({ 'title': { "$regex": searchPhrase, "$options": "i" } }, (err, recipes) => {
-        if(err) { console.log('There was an error searching for the recipe\n', err); }
-        else {
-            console.log(recipes)
-            res.render('index', { recipes: recipes });
-        }
-    })
+
+    if (searchPhrase === '') { return res.redirect('/recipes'); }
+    else {
+        // Queries the database for recipe titles matching the search phrase
+        Recipe.find({ 'title': { "$regex": searchPhrase, "$options": "i" } }, (err, recipes) => {
+            if(err) { console.log('There was an error searching for the recipe\n', err); }
+            else { res.render('index', { recipes: recipes }); }
+        });
+    }
 });
 
 // SHOW - shows more information about a single recipe
@@ -112,13 +105,9 @@ app.get('/recipes/:id', (req, res) => {
 
                 if(food.hints.length > 0) {
                     nutrients = food.hints[0].food.nutrients;
+                    console.log('True: Nutrition facts found for this recipe.');
+                } else { console.log('False: Entered recipe has no nutritional facts.'); }
 
-                    console.log(food.hints[0].food.nutrients);
-                    console.log('true');
-                } else {
-                    console.log('False: Entered recipe has no nutritional facts.');
-                }
-                console.log(nutrients);
                 res.render('showRecipe', { recipe: recipe, nutrients: nutrients });     
             });     
         }
