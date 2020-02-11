@@ -1,5 +1,5 @@
 # Recipes Online
-Recipes Online is a website that allows anyone to easliy upload recipes to be seen by anyone.
+Recipes Online is a website that allows anyone to easily upload recipes to be seen by anyone.
 
 > Recipes Online: [https://clouda2-recipes-online.herokuapp.com/](https://clouda2-recipes-online.herokuapp.com/)
 #### 4 Main Features
@@ -19,4 +19,3 @@ Nodemailer is the notification service that was used to allow users to have the 
 > [Edamam Food and Grocery Database](https://developer.edamam.com/edamam-recipe-api)  
 
 This api was used to aquire nutrition information for submitted recipes.
-
