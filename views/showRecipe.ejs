@@ -14,7 +14,9 @@
                 <small class="text-muted"><%= recipe.dateCreated.toDateString() %></small>             
                 <p id="descript"><%= recipe.description %></p>
 
-                <div class="mt-5 mb-5">
+                <!-- Gets nutrition facts from external API -->
+                <% if (Object.keys(nutrients).length > 0) { %>
+                <div class="mt-5 mb-5">                    
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -41,6 +43,7 @@
                         </tbody>
                     </table>
                 </div>
+                <% } %>
 
                 <!-- Hidden email input field -->
                 <div class="hideBox" id="showEmailInput">

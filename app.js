@@ -108,11 +108,17 @@ app.get('/recipes/:id', (req, res) => {
                 console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 
                 let food = JSON.parse(body);
-                let nutrients = food.hints[0].food.nutrients;
+                let nutrients = {};
 
-                // console.log('body:', body); // Print the HTML for the Google homepage.
-                console.log(food.hints[0].food.nutrients);
+                if(food.hints.length > 0) {
+                    nutrients = food.hints[0].food.nutrients;
 
+                    console.log(food.hints[0].food.nutrients);
+                    console.log('true');
+                } else {
+                    console.log('False: Entered recipe has no nutritional facts.');
+                }
+                console.log(nutrients);
                 res.render('showRecipe', { recipe: recipe, nutrients: nutrients });     
             });     
         }
